@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:topshiriq/model/product.dart';
 import 'package:topshiriq/servis/product_httpservis.dart';
 import 'package:topshiriq/views/widgets/custom_drawer.dart';
@@ -7,6 +8,7 @@ class AdminPanelScreen extends StatefulWidget {
   const AdminPanelScreen({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _AdminPanelScreenState createState() => _AdminPanelScreenState();
 }
 
@@ -77,7 +79,7 @@ class _AdminPanelScreenState extends State<AdminPanelScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Admin Panel'),
+        title: Text(tr('admin_panel')),
         backgroundColor: Colors.amber,
       ),
       drawer: const CustomDrawer(),
@@ -90,8 +92,8 @@ class _AdminPanelScreenState extends State<AdminPanelScreen> {
               backgroundImage: NetworkImage(product.imageUrl),
             ),
             title: Text(product.title),
-            subtitle:
-                Text('Amount: ${product.amount} - Price: \$${product.price}'),
+            subtitle: Text(
+                '${tr('amount')}: ${product.amount} - ${tr('price')}: \$${product.price}'),
             trailing: IconButton(
               icon: Icon(
                 product.isFavorite ? Icons.favorite : Icons.favorite_border,
@@ -120,6 +122,7 @@ class ProductDialog extends StatefulWidget {
   const ProductDialog({super.key, this.product, required this.onSave});
 
   @override
+  // ignore: library_private_types_in_public_api
   _ProductDialogState createState() => _ProductDialogState();
 }
 
@@ -167,7 +170,8 @@ class _ProductDialogState extends State<ProductDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text(widget.product == null ? 'Add Product' : 'Edit Product'),
+      title:
+          Text(widget.product == null ? tr('add_product') : tr('edit_product')),
       content: Form(
         key: _formKey,
         child: SingleChildScrollView(
@@ -175,10 +179,10 @@ class _ProductDialogState extends State<ProductDialog> {
             children: <Widget>[
               TextFormField(
                 initialValue: _title,
-                decoration: const InputDecoration(labelText: 'Title'),
+                decoration: InputDecoration(labelText: tr('title')),
                 validator: (value) {
                   if (value!.isEmpty) {
-                    return 'Please enter a title.';
+                    return tr('enter_name');
                   }
                   return null;
                 },
@@ -188,10 +192,10 @@ class _ProductDialogState extends State<ProductDialog> {
               ),
               TextFormField(
                 initialValue: _imageUrl,
-                decoration: const InputDecoration(labelText: 'Image URL'),
+                decoration: InputDecoration(labelText: tr('image_url')),
                 validator: (value) {
                   if (value!.isEmpty) {
-                    return 'Please enter an image URL.';
+                    return tr('enter_profile_picture_url');
                   }
                   return null;
                 },
@@ -201,11 +205,11 @@ class _ProductDialogState extends State<ProductDialog> {
               ),
               TextFormField(
                 initialValue: _price.toString(),
-                decoration: const InputDecoration(labelText: 'Price'),
+                decoration: InputDecoration(labelText: tr('price')),
                 keyboardType: TextInputType.number,
                 validator: (value) {
                   if (value!.isEmpty || double.tryParse(value) == null) {
-                    return 'Please enter a valid price.';
+                    return tr('enter_valid_price');
                   }
                   return null;
                 },
@@ -215,11 +219,11 @@ class _ProductDialogState extends State<ProductDialog> {
               ),
               TextFormField(
                 initialValue: _amount.toString(),
-                decoration: const InputDecoration(labelText: 'Amount'),
+                decoration: InputDecoration(labelText: tr('amount')),
                 keyboardType: TextInputType.number,
                 validator: (value) {
                   if (value!.isEmpty || int.tryParse(value) == null) {
-                    return 'Please enter a valid amount.';
+                    return tr('enter_valid_amount');
                   }
                   return null;
                 },
@@ -228,7 +232,7 @@ class _ProductDialogState extends State<ProductDialog> {
                 },
               ),
               SwitchListTile(
-                title: const Text('Favorite'),
+                title: Text(tr('favorite')),
                 value: _isFavorite,
                 onChanged: (value) {
                   setState(() {
@@ -242,14 +246,14 @@ class _ProductDialogState extends State<ProductDialog> {
       ),
       actions: <Widget>[
         TextButton(
-          child: const Text('Cancel'),
+          child: Text(tr('cancel')),
           onPressed: () {
             Navigator.of(context).pop();
           },
         ),
         ElevatedButton(
           onPressed: _submit,
-          child: const Text('Save'),
+          child: Text(tr('save')),
         ),
       ],
     );

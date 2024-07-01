@@ -1,8 +1,22 @@
+import 'package:adaptive_theme/adaptive_theme.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:topshiriq/views/screens/splash_screen.dart';
 
-void main(List<String> args) {
-  runApp(const MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await EasyLocalization.ensureInitialized();
+  runApp(
+    EasyLocalization(
+      supportedLocales: const [
+        Locale("uz"),
+        Locale("en"),
+      ],
+      path: "resources/langs",
+      startLocale: const Locale("uz"),
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -10,9 +24,21 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: SplashScreen(),
+    return AdaptiveTheme(
+      initial: AdaptiveThemeMode.light,
+      light: ThemeData(brightness: Brightness.light),
+      dark: ThemeData(brightness: Brightness.dark),
+      builder: (lightTheme, darkTheme) {
+        return MaterialApp(
+          localizationsDelegates: context.localizationDelegates,
+          supportedLocales: context.supportedLocales,
+          debugShowCheckedModeBanner: false,
+          locale: context.locale,
+          theme: lightTheme,
+          darkTheme: darkTheme,
+          home: const SplashScreen(),
+        );
+      },
     );
   }
 }

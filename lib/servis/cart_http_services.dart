@@ -30,6 +30,7 @@ class CartHttpServices {
         id: user.id,
         products: products,
       );
+      print(cart);
     }
 
     return cart;

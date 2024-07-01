@@ -67,7 +67,7 @@ class _LoginScreenState extends State<LoginScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Image.network(
-                  "https://asia361.com/wp-content/uploads/2015/07/Online-shop_button.jpg"),
+                  "https://papik.pro/grafic/uploads/posts/2023-04/1681580469_papik-pro-p-logotip-avtomasterskoi-vektor-27.png"),
               const Text(
                 "Tizimga Kirish",
                 style: TextStyle(

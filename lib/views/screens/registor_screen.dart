@@ -64,103 +64,105 @@ class _RegisterScreenState extends State<RegisterScreen> {
         key: formKey,
         child: Padding(
           padding: const EdgeInsets.all(20.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Image.network(
-                  "https://asia361.com/wp-content/uploads/2015/07/Online-shop_button.jpg"),
-              const Text(
-                "Ro'yxatdan O'tish",
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image.network(
+                    "https://papik.pro/grafic/uploads/posts/2023-04/1681580469_papik-pro-p-logotip-avtomasterskoi-vektor-27.png"),
+                const Text(
+                  "Ro'yxatdan O'tish",
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
-              ),
-              const SizedBox(height: 20),
-              TextFormField(
-                controller: emailController,
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: "Elektron pochta",
+                const SizedBox(height: 20),
+                TextFormField(
+                  controller: emailController,
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: "Elektron pochta",
+                  ),
+                  validator: (value) {
+                    if (value == null || value.trim().isEmpty) {
+                      return "Iltimos elektron pochta kiriting";
+                    }
+
+                    return null;
+                  },
                 ),
-                validator: (value) {
-                  if (value == null || value.trim().isEmpty) {
-                    return "Iltimos elektron pochta kiriting";
-                  }
+                const SizedBox(height: 10),
+                TextFormField(
+                  obscureText: true,
+                  controller: passwordController,
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: "Parol",
+                  ),
+                  validator: (value) {
+                    if (value == null || value.trim().isEmpty) {
+                      return "Iltimos parolingizni kiriting";
+                    }
 
-                  return null;
-                },
-              ),
-              const SizedBox(height: 10),
-              TextFormField(
-                obscureText: true,
-                controller: passwordController,
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: "Parol",
+                    return null;
+                  },
                 ),
-                validator: (value) {
-                  if (value == null || value.trim().isEmpty) {
-                    return "Iltimos parolingizni kiriting";
-                  }
+                const SizedBox(height: 10),
+                TextFormField(
+                  obscureText: true,
+                  controller: passwordConfirmController,
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: "Parol tasdiqlang",
+                  ),
+                  validator: (value) {
+                    if (value == null || value.trim().isEmpty) {
+                      return "Iltimos parolingizni tasdiqlang";
+                    }
 
-                  return null;
-                },
-              ),
-              const SizedBox(height: 10),
-              TextFormField(
-                obscureText: true,
-                controller: passwordConfirmController,
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: "Parol tasdiqlang",
+                    if (passwordConfirmController.text !=
+                        passwordController.text) {
+                      return "Parollar bir xil emas";
+                    }
+
+                    return null;
+                  },
                 ),
-                validator: (value) {
-                  if (value == null || value.trim().isEmpty) {
-                    return "Iltimos parolingizni tasdiqlang";
-                  }
-
-                  if (passwordConfirmController.text !=
-                      passwordController.text) {
-                    return "Parollar bir xil emas";
-                  }
-
-                  return null;
-                },
-              ),
-              const SizedBox(height: 20),
-              isLoading
-                  ? const Center(
-                      child: CircularProgressIndicator(),
-                    )
-                  : SizedBox(
-                      width: double.infinity,
-                      height: 55,
-                      child: FilledButton(
-                        onPressed: submit,
-                        style: FilledButton.styleFrom(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(4),
+                const SizedBox(height: 20),
+                isLoading
+                    ? const Center(
+                        child: CircularProgressIndicator(),
+                      )
+                    : SizedBox(
+                        width: double.infinity,
+                        height: 55,
+                        child: FilledButton(
+                          onPressed: submit,
+                          style: FilledButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(4),
+                            ),
                           ),
+                          child: const Text("RO'YXATDAN O'TISH"),
                         ),
-                        child: const Text("RO'YXATDAN O'TISH"),
                       ),
-                    ),
-              const SizedBox(height: 10),
-              TextButton(
-                onPressed: () {
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                      builder: (ctx) {
-                        return const LoginScreen();
-                      },
-                    ),
-                  );
-                },
-                child: const Text("Tizimga kirish"),
-              ),
-            ],
+                const SizedBox(height: 10),
+                TextButton(
+                  onPressed: () {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (ctx) {
+                          return const LoginScreen();
+                        },
+                      ),
+                    );
+                  },
+                  child: const Text("Tizimga kirish"),
+                ),
+              ],
+            ),
           ),
         ),
       ),

@@ -1,10 +1,8 @@
-
-
 import 'package:flutter/material.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:topshiriq/model/product.dart';
 import 'package:topshiriq/servis/product_httpservis.dart';
 import 'package:topshiriq/viewmodel/carts_view_model.dart';
-import 'package:topshiriq/views/screens/card_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -32,7 +30,9 @@ class _HomeScreenState extends State<HomeScreen> {
   void getUserCart() async {
     final userCart = await cartsViewModel.getUserCart();
     if (userCart != null) {
-      cart = userCart.products;
+      setState(() {
+        cart = userCart.products;
+      });
     }
   }
 
@@ -75,16 +75,11 @@ class _HomeScreenState extends State<HomeScreen> {
       return pro.id == product.id;
     });
     if (index == -1) {
-      cart.add(product);
+      setState(() {
+        cart.add(product);
+      });
       await cartsViewModel.addToCart(cart);
-      setState(() {});
     }
-  }
-
-  void _navigateToCart() {
-    Navigator.of(context).push(
-      MaterialPageRoute(builder: (context) => CartScreen(cart: cart)),
-    );
   }
 
   @override
@@ -97,7 +92,7 @@ class _HomeScreenState extends State<HomeScreen> {
             child: TextField(
               onChanged: _searchProducts,
               decoration: InputDecoration(
-                labelText: 'Search',
+                labelText: tr('serch'),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(8.0),
                 ),
@@ -110,18 +105,13 @@ class _HomeScreenState extends State<HomeScreen> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text(
-                  "Shopping Category",
-                  style: TextStyle(fontSize: 20),
+                Text(
+                  tr('cotegory'),
+                  style: const TextStyle(fontSize: 20),
                 ),
-                Column(
-                  children: [
-                    IconButton(
-                      icon:
-                          Icon(isGridView ? Icons.view_list : Icons.grid_view),
-                      onPressed: _toggleView,
-                    ),
-                  ],
+                IconButton(
+                  icon: Icon(isGridView ? Icons.view_list : Icons.grid_view),
+                  onPressed: _toggleView,
                 ),
               ],
             ),
@@ -138,7 +128,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return GridView.builder(
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
-        childAspectRatio: 2 / 3,
+        childAspectRatio: 0.6,
       ),
       itemCount: displayedProducts.length,
       itemBuilder: (context, index) {
@@ -164,10 +154,15 @@ class _HomeScreenState extends State<HomeScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Image.network(
-            product.imageUrl,
-            fit: BoxFit.fill,
+          SizedBox(
+            height: 189,
+            width: double.infinity,
+            child: Image.network(
+              product.imageUrl,
+              fit: BoxFit.fill,
+            ),
           ),
+          const SizedBox(height: 10),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(
@@ -180,8 +175,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                Text('Price: \$${product.price.toString()}'),
-                Text('Amount: ${product.amount.toString()}'),
+                Text('${tr('price')}: \$${product.price.toString()}'),
+                Text('${tr('amount')}: ${product.amount.toString()}'),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -195,11 +190,12 @@ class _HomeScreenState extends State<HomeScreen> {
                       onPressed: () => _toggleFavorite(product.id),
                     ),
                     IconButton(
-                      icon: Icon(Icons.shopping_cart_outlined),
-                      onPressed: () => _addToCart(product),
+                      icon: const Icon(Icons.add_circle_outline),
+                      onPressed: () =>  _addToCart(product) ,
+                      
                     ),
                   ],
-                )
+                ),
               ],
             ),
           ),

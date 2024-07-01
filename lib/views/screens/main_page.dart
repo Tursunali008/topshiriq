@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:topshiriq/views/screens/card_screen.dart';
 import 'package:topshiriq/views/screens/home_screen.dart';
 import 'package:topshiriq/views/screens/order_screen.dart';
@@ -8,17 +9,11 @@ class MainPage extends StatefulWidget {
   const MainPage({super.key});
 
   @override
-  State<MainPage> createState() => _MainPageState();
+  _MainPageState createState() => _MainPageState();
 }
 
 class _MainPageState extends State<MainPage> {
   int _selectedIndex = 0;
-
-  final List<Widget> _widgetOptions = <Widget>[
-    const HomeScreen(),
-    CartScreen(cart: []),
-    const OrderScreen(),
-  ];
 
   void _onItemTapped(int index) {
     setState(() {
@@ -31,23 +26,69 @@ class _MainPageState extends State<MainPage> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: const Text("Online Shop"),
+        title: Text(
+          tr('app_bar'),
+        ),
+        actions: [
+          Row(
+            children: [
+              const Icon(Icons.language),
+              DropdownButton<Locale>(
+                alignment: AlignmentDirectional.bottomEnd,
+                elevation: 8,
+                value: context.locale,
+                items: const [
+                  DropdownMenuItem(
+                    value: Locale("uz"),
+                    child: Text("Uz"),
+                  ),
+                  DropdownMenuItem(
+                    value: Locale("en"),
+                    child: Text("En"),
+                  ),
+                ],
+                onChanged: (Locale? value) {
+                  if (value != null) {
+                    context.setLocale(value);
+                    setState(() {});
+                  }
+                },
+              ),
+            ],
+          ),
+        ],
         backgroundColor: Colors.amber,
       ),
-      body: _widgetOptions.elementAt(_selectedIndex),
+      body: IndexedStack(
+        index: _selectedIndex,
+        children:  [
+          HomeScreen(),
+          CartScreen(),
+          OrderScreen(),
+        ],
+      ),
       bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
+        items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
+            icon: const Icon(
+              Icons.home,
+              color: Colors.grey,
+            ),
+            label: tr('home'), // Localized tab label
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.shopping_cart),
-            label: 'Cart',
+            icon: const Icon(
+              Icons.shopping_cart,
+              color: Colors.grey,
+            ),
+            label: tr('cart'), // Localized tab label
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.list),
-            label: 'Order',
+            icon: const Icon(
+              Icons.list,
+              color: Colors.grey,
+            ),
+            label: tr('order'), // Localized tab label
           ),
         ],
         currentIndex: _selectedIndex,

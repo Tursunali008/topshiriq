@@ -34,7 +34,7 @@ class _SplashScreenState extends State<SplashScreen> {
     return Scaffold(
       body: Center(
         child: Image.network(
-          'https://asia361.com/wp-content/uploads/2015/07/Online-shop_button.jpg',
+          'https://papik.pro/grafic/uploads/posts/2023-04/1681580469_papik-pro-p-logotip-avtomasterskoi-vektor-27.png',
         ),
       ),
     );

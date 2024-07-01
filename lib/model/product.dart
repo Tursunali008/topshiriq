@@ -30,11 +30,11 @@ Rasmi: $imageUrl
 
   factory Product.fromJson(Map<String, dynamic> json) {
     return Product(
-      id: json['id'],
-      title: json['title'],
-      imageUrl: json['imageUrl'],
-      price: json['price'],
-      amount: json['amount'],
+      id: json['id'] as String? ?? "",
+      title: json['title']as String? ?? "",
+      imageUrl: json['imageUrl']as String? ?? "",
+      price: json['price'] as double? ?? 0.0,
+      amount: json['amount']as int ,
       isFavorite: json['isFavorite'] ?? false,
     );
   }
